@@ -11,15 +11,15 @@ class Commands(cms.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cms.command(aliases = ["poz", "pozdrav", "z", "cao"])
-    async def hello(self, ctx):
-        author = ctx.author
+    @acms.command(name = "hello", description = "Kreativan pozdrav")
+    async def hello(self, interaction: discord.Interaction):
+        author = interaction.user
         possible = []
         with open("pozdravi.txt", "r") as f:
             possible = f.readlines()
         chosen = choice(possible)
 
-        await ctx.send(chosen.format(caller = author.mention))
+        await interaction.response.send_message(chosen.format(caller = author.mention))
 
     @cms.command(aliases = ["sazovi", "pozovi", "cstime"])
     async def call_up(self, ctx, duration):
@@ -42,6 +42,5 @@ class Commands(cms.Cog):
 
         await ctx.send(poll = poll)
 
-    @acms.command(name = "helloburek", description = "Pozdrav za davida")
-    async def helloBurek(self, interaction: discord.Interaction):
-        await interaction.response.send_message("Pozdrav za Davida Kovacevica")
+
+        
