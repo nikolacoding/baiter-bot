@@ -41,6 +41,3 @@ class Commands(cms.Cog):
         poll.add_answer(text = poll_content[2])
 
         await ctx.send(poll = poll)
-
-
-        
