@@ -7,7 +7,8 @@ class Client(cms.Bot):
     def __init__(self, *, intents: discord.Intents):
         super().__init__(
             command_prefix = "!", 
-            intents = intents)
+            intents = intents
+        )
 
     async def setup_hook(self):
         await self.add_cog(Commands(self))
