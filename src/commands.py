@@ -14,11 +14,7 @@ class Commands(cms.Cog):
     @acms.command(name = "hello", description = "Kreativan pozdrav")
     async def hello(self, interaction: discord.Interaction):
         author = interaction.user
-        possible = []
-        with open("pozdravi.txt", "r") as f:
-            possible = f.readlines()
-        chosen = choice(possible)
-
+        chosen = util.pick_a_line_from_file("pozdravi.txt")
         await interaction.response.send_message(chosen.format(caller = author.mention))
 
     @cms.command(aliases = ["sazovi", "pozovi", "cstime"])
@@ -28,8 +24,7 @@ class Commands(cms.Cog):
             await ctx.reply("Rezervisano za admine.")
             return
 
-        with open("cspoll.txt", "r") as f:
-            chosen = choice(f.readlines())
+        chosen = util.pick_a_line_from_file("cspoll.txt")
 
         poll_content = chosen.split(":")
         poll = discord.Poll(

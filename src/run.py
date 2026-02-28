@@ -20,6 +20,8 @@ class Client(cms.Bot):
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.members = True
+intents.presences = True
 
 client = Client(intents = intents)
 
