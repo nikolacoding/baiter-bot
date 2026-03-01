@@ -39,6 +39,4 @@ def is_forbidden_activity(activity_name: str) -> bool:
     return False
 
 def pick_a_line_from_file(file_name: str) -> str:
-    with open(file_name, "r", encoding = "utf-8") as f:
-        lines = f.readlines()
-        return choice(lines)
+    return choice(parse_lines(file_name))

@@ -25,17 +25,24 @@ class Events(cms.Cog):
     async def on_presence_update(self, before, after):
         user_id = before.id
         user = await self.bot.fetch_user(user_id)
+
+        # ako je privilegovan korisnik promijenio aktivnost
         if util.is_privileged_user(user_id) and before.activities != after.activities:
             for activity in after.activities:
+                # iteracija kroz aktivnosti
                 if activity and activity.type == discord.ActivityType.playing:
-                    # (ako je u igrici)
+                    # ako je u igrici
+                    spam_channel = await self.bot.fetch_channel(constants.channel_ids["log_spam"])
                     log_channel = await self.bot.fetch_channel(constants.channel_ids["activity_log"])
-                    debug_prefix = ""
 
+                    message = f"{{prefix}} {after.display_name} sada igra '{activity.name}'"
+
+                    # u spam_channel pisemo sve promjene aktivnosti, a u activity_log samo zabranjene
                     if user and util.is_forbidden_activity(activity.name):
-                        debug_prefix = "[!] "
                         choice = util.pick_a_line_from_file("forbidden_activity_reactions.txt")
                         await user.send(choice)
+                        await spam_channel.send(message.format(prefix = "[!]"))
+                        await log_channel.send(message.format(prefix = "[!]"))
+                        return
             
-                    await log_channel.send(f"{debug_prefix}{after.display_name} sada igra '{activity.name}'")
-
+                    await spam_channel.send(message.format(prefix = ""))

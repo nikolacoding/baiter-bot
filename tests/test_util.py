@@ -20,7 +20,7 @@ def test_pick_a_line_from_file():
     with open(test_file_name, "r") as f:
         test_file_lines = f.readlines()
         for i in range(50):
-            assert util.pick_a_line_from_file(test_file_name) in test_file_lines
+            assert util.pick_a_line_from_file(test_file_name) in [line.strip() for line in test_file_lines]
 
 def test_parse_lines():
     lines = util.parse_lines("tests/test_parse_lines_helper.txt")
