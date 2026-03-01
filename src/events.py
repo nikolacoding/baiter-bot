@@ -18,6 +18,7 @@ class Events(cms.Cog):
         # za prevenciju stekovanja, dodati return na prvi prolaz petlje
         for content, reaction in constants.content_reactions.items(): 
             if content.lower() in ctx.content.lower():
+                print(f"reakcija: {reaction}")
                 await ctx.add_reaction(reaction)
 
     @cms.Cog.listener()
