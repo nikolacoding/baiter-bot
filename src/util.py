@@ -25,13 +25,13 @@ admin_ids = parse_lines("config/admin_ids.cfg")
 privileged_users = parse_lines("config/privileged_user_ids.cfg")
 forbidden_activities = parse_lines("config/forbidden_activities.cfg")
 
-def is_admin(id) -> bool:
-    return id in admin_ids
+def is_admin(id: int) -> bool:
+    return str(id) in admin_ids
 
-def is_privileged_user(id) -> bool:
-    return id in privileged_users
+def is_privileged_user(id: int) -> bool:
+    return str(id) in privileged_users
 
-def is_forbidden_activity(activity_name) -> bool:
+def is_forbidden_activity(activity_name: str) -> bool:
     for fa in forbidden_activities:
         if fa in activity_name.lower():
             return True
@@ -39,10 +39,6 @@ def is_forbidden_activity(activity_name) -> bool:
     return False
 
 def pick_a_line_from_file(file_name: str) -> str:
-    lines = []
-    ch = str()
     with open(file_name, "r", encoding = "utf-8") as f:
         lines = f.readlines()
-        ch = choice(lines)
-
-    return ch
+        return choice(lines)

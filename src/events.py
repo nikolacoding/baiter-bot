@@ -25,14 +25,17 @@ class Events(cms.Cog):
     async def on_presence_update(self, before, after):
         user_id = before.id
         user = await self.bot.fetch_user(user_id)
-
         if util.is_privileged_user(user_id) and before.activities != after.activities:
             for activity in after.activities:
                 if activity and activity.type == discord.ActivityType.playing:
                     # (ako je u igrici)
-                    channel = await self.bot.fetch_channel(constants.channel_ids["debug"])
-                    await channel.send(f"{after.display_name} sada igra '{activity.name}'")
+                    log_channel = await self.bot.fetch_channel(constants.channel_ids["activity_log"])
+                    debug_prefix = ""
 
                     if user and util.is_forbidden_activity(activity.name):
+                        debug_prefix = "[!] "
                         choice = util.pick_a_line_from_file("forbidden_activity_reactions.txt")
                         await user.send(choice)
+            
+                    await log_channel.send(f"{debug_prefix}{after.display_name} sada igra '{activity.name}'")
+
